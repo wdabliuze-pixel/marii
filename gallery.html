@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/imgs/icon.png">
+    
+    <title>Nossas Memórias | LUV</title>
+
+    <link rel="stylesheet" href="assets/3458439583409583094580/3458439583409583094580.css">
+    <link href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css" rel="stylesheet">
+
+    <!-- Música -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/musica.mp3" type="audio/mp3">
+        Seu navegador não suporta áudio HTML5.
+    </audio>
+
+    <style>
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: #000000; 
+        }
+
+        .gallery-container {
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeInUp 0.8s;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background-color: transparent;
+            border: 2px solid #ff1493;
+            color: #ff1493;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            box-shadow: 0 0 20px #ff1493;
+            color: white;
+            border-color: white;
+        }
+
+        .gallery-title {
+            font-size: 48px;
+            color: #ff1493;
+            margin-bottom: 60px;
+            text-align: center;
+            text-shadow: 0 0 20px #ff1493;
+            font-weight: bold;
+            animation: fadeInDown 0.8s;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .photo-frame {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 3px solid #ff1493;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.3), inset 0 0 20px rgba(255, 20, 147, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .photo-frame:hover {
+            box-shadow: 0 0 50px rgba(255, 20, 147, 0.6), inset 0 0 30px rgba(255, 20, 147, 0.2);
+            transform: scale(1.05);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.02);
+        }
+
+        .memory-text-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 3px solid #ff1493;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 600px;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.3), inset 0 0 20px rgba(255, 20, 147, 0.1);
+            animation: fadeInUp 0.8s;
+        }
+
+        .memory-text-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .memory-text-section::-webkit-scrollbar-track {
+            background: rgba(255, 20, 147, 0.1);
+            border-radius: 10px;
+        }
+
+        .memory-text-section::-webkit-scrollbar-thumb {
+            background: #ff1493;
+            border-radius: 10px;
+        }
+
+        .memory-text-section::-webkit-scrollbar-thumb:hover {
+            background: #ff69b4;
+        }
+
+        .memory-title {
+            font-size: 32px;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 15px #ff1493;
+        }
+
+        .memory-text {
+            color: #ffffff;
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-title {
+                font-size: 32px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .memory-text-section {
+                padding: 20px;
+            }
+
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Chuva de Corações e Emojis */
+        .emoji-rain {
+            position: absolute;
+            pointer-events: none;
+            font-size: 24px;
+            animation: fall-emoji 2s linear forwards;
+        }
+
+        @keyframes fall-emoji {
+            0% {
+                opacity: 1;
+                transform: translateY(-20px) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(300px) rotate(360deg);
+            }
+        }
+
+        /* Frases caindo */
+        .falling-phrase {
+            position: fixed;
+            top: -50px;
+            font-size: 18px;
+            color: #ff1493;
+            font-family: "Poppins", sans-serif;
+            pointer-events: none;
+            z-index: 1;
+            text-shadow: 0 0 10px #ff1493;
+            font-weight: 500;
+            white-space: nowrap;
+            animation: fall-phrase 8s linear forwards;
+        }
+
+        @keyframes fall-phrase {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(50px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <button class="back-button" onclick="sessionStorage.setItem('showProfiles', 'true'); window.location.href='index.html';">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </button>
+
+    <div class="gallery-container">
+        <h1 class="gallery-title">💖 Nossas Memórias 💖</h1>
+
+        <div class="gallery-grid">
+            <div class="photo-frame">
+                <img src="assets/euiela.png" alt="Nós Dois">
+            </div>
+
+            <div class="photo-frame">
+                <img src="assets/eu.png" alt="Eu">
+            </div>
+
+            <div class="photo-frame">
+                <img src="assets/ela.png" alt="Ela">
+            </div>
+
+            <div class="photo-frame">
+                <img src="assets/euamomais.png" alt="Eu Te Amo Mais">
+            </div>
+        </div>
+
+        <div class="memory-text-section">
+            <h2 class="memory-title">💝 PARA VOCÊ</h2>
+            <p class="memory-text">
+                eh… realmente amar você de longe é tão chato. tem duas distâncias né? a distância de amar e mesmo assim ter terminado, e a distância real entre a gente. mas nada que o tempo não possa ir arrumando kkk. eu gosto muito de você, marii. gosto muito ao ponto de te amar de verdade e de fazer qualquer coisa por você. <br><br>
+                
+                fiz esse site como uma pequena demonstração do meu amor por você. EU TE AMO. desculpa pelos meus defeitos, eu só queria ser a pessoa perfeita pra você e te fazer feliz. e eu tenho certeza que, se você aceitar voltar comigo, eu vou fazer você a garota mais feliz e amada desse mundo. eu vou fazer de tudo por você. <br><br>
+                
+                você é perfeita. eu amo seu cabelo, seu rosto, seus olhos, sua boca, sua voz, sua risada, sua companhia… e amo ficar escutando sua voz e passar horas em call com você. (tudo bem que já faz uns dias que estamos distantes, mas eu ainda penso em você). você foi uma garota muito marcante na minha vida em tão pouco tempo kk. eu não sei o que aconteceu, foi tudo tão do nada… mas ao mesmo tempo foi tudo tão perfeito. <br><br>
+                
+                eu sou maluco, sou louco por você. <br><br>
+                
+                <em>"e se você ainda pensa em nós, eu ainda penso em nós."</em> 💖
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <script>
+        // Sincronizar música entre páginas
+        window.addEventListener('load', () => {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const savedTime = sessionStorage.getItem('musicTime');
+            const isPlaying = sessionStorage.getItem('musicPlaying') === 'true';
+            
+            if (savedTime) {
+                backgroundMusic.currentTime = parseFloat(savedTime);
+            }
+            
+            if (isPlaying) {
+                backgroundMusic.play();
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            sessionStorage.setItem('musicTime', backgroundMusic.currentTime);
+            sessionStorage.setItem('musicPlaying', !backgroundMusic.paused);
+        });
+
+        // Configuração do Particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 30,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "image",
+                    "image": {
+                        "src": "https://cdn.discordapp.com/emojis/998607318893723798.webp?size=96&quality=lossless",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 12,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 3,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "bottom",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas"
+            }
+        });
+
+        // Chuva de frases romanticamente caindo
+        const phrases = [
+            "Mesmo longe, meu pensamento sempre volta pra você.",
+            "Se for pra amar, que seja você, mesmo no caos.",
+            "Entre idas e voltas, meu coração ainda te escolhe.",
+            "O tempo passa, mas o sentimento não muda.",
+            "Se ainda existe nós, eu não desisto."
+        ];
+
+        function createFallingPhrase() {
+            const phrase = document.createElement('div');
+            phrase.className = 'falling-phrase';
+            phrase.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            phrase.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+            document.body.appendChild(phrase);
+
+            setTimeout(() => {
+                phrase.remove();
+            }, 8000);
+        }
+
+        // Criar nova frase a cada 3 segundos
+        setInterval(createFallingPhrase, 3000);
+
+        // Chuva de emojis ao clicar nas fotos
+        document.querySelectorAll('.photo-frame img').forEach(img => {
+            img.addEventListener('click', function() {
+                const frame = this.closest('.photo-frame');
+                const emojis = ['❤️', '💕', '💖', '💗', '💝', '🌹', '💋', '⭐', '🎀', '✨'];
+                
+                // Criar 20 emojis caindo
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const emoji = document.createElement('div');
+                        emoji.className = 'emoji-rain';
+                        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                        
+                        // Posição aleatória dentro do frame
+                        const randomX = Math.random() * (frame.offsetWidth - 40);
+                        emoji.style.left = randomX + 'px';
+                        emoji.style.top = '0px';
+                        
+                        // Rotação aleatória
+                        emoji.style.setProperty('--rotation', Math.random() * 360 + 'deg');
+                        
+                        frame.appendChild(emoji);
+                        
+                        // Remover emoji após animação
+                        setTimeout(() => {
+                            emoji.remove();
+                        }, 2000);
+                    }, i * 50);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
